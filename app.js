@@ -1,6 +1,8 @@
+require('dotenv').config()
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+const fileUpload = require('express-fileupload')
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose'); //added
@@ -8,11 +10,14 @@ var mongoose = require('mongoose'); //added
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var producRouter = require('./routes/productRouter');
+var uploadRouter = require('./routes/uploadRouter')
+var categoryRouter = require('./routes/categoryRouter')
 
 
 var app = express();
 var url = 'mongodb://localhost:27017/smartFarm';//added
-var connect = mongoose.connect(url); //added
+var connect = mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}); //added
 
 connect.then((db) => { //added 
   console.log('Berhasil connect Mongo DB');
@@ -22,7 +27,7 @@ connect.then((db) => { //added
 
 //auth
 function auth (req,res,next){
-  console.log(req.headers);
+  //console.log(req.headers);
   var authHeader = req.headers.authorization;
   if(!authHeader){
     var err = new Error('You are not authenticated');
@@ -56,14 +61,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload({
+  useTempFiles: true
+}))
 
+//Menuju router
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/product',producRouter);
+app.use('/upload',uploadRouter);
+app.use('/category',categoryRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+
 
 // error handler
 app.use(function(err, req, res, next) {
