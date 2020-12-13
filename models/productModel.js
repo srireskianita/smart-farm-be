@@ -29,14 +29,19 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    checked: {
-        type: Boolean,
-        required: false
-    },
-    sold: {
+    //Minimal pembelian 
+    minimum: {
         type: Number,
-        default: 0
+        default: 1,
+        require: true
+    },
+    //Satuan minimal pembelian
+    unit: {
+        type: String,
+        required: true
     }
+
+
 })
     
 
