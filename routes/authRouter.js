@@ -22,7 +22,6 @@ router.post("/register", async (req, res) => {
 
   const user = new User({
     name: req.body.name,
-    username: req.body.username,
     address:req.body.address,
     email: req.body.email,
     password,
@@ -36,6 +35,7 @@ router.post("/register", async (req, res) => {
   } catch (error) {
     res.status(400).json({ error });
   }
+
 });
 
 router.post("/login", async (req, res) => {

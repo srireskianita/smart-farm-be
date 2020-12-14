@@ -5,11 +5,6 @@ const customerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    username: {
-        type: String,
-        trim: true,
-        required: true
-    },
     address: {
         type: String,
         required: true

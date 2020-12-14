@@ -14,14 +14,14 @@ router.route('/')
   })
 .post(async(req, res, next) => {
     try {
-        const {customer_id, name, username, email, password, address, phoneNumber, accountType} = req.body;
+        const {customer_id, name, email, password, address, phoneNumber, accountType} = req.body;
    
         const customer = await Customer.findOne({customer_id});
         if(customer){
             return res.status(400).json({msg: "Customer has exists"}); 
         }
         const newCustomer= new Customer({
-            customer_id, name, username, email, password, address, phoneNumber, accountType
+            customer_id, name, email, password, address, phoneNumber, accountType
         })
         await newCustomer.save()
         res.status = 200;
@@ -36,9 +36,9 @@ router.route('/')
 router.route('/:id')
 .put(async(req, res, next) => {
     try {
-        const{name, username, email, password, address, phoneNumber, accountType} = req.body
+        const{name, email, password, address, phoneNumber, accountType} = req.body
         await Customer.findOneAndUpdate({_id: req.params.id},{
-            name, username, email, password, address, phoneNumber, accountType
+            name, email, password, address, phoneNumber, accountType
         })
         res.status = 200;
         res.setHeader('Content-type', 'application/json');
