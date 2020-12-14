@@ -14,16 +14,16 @@ router.route('/')
   })
 .post(async(req, res, next) => {
     try {
-        const {product_id, title, price, stock, description, images, category, minimum, unit} = req.body;
+        const {title, price, stock, description, images, category, minimum, unit} = req.body;
         if(!images){
             return res.status(400).json({msg: "No images upload"});
         }
-        const product = await Products.findOne({product_id});
-        if(product){
-            return res.status(400).json({msg: "Product has exists"}); 
-        }
+        //const product = await Products.findOne({product_id});
+        // if(product){
+        //     return res.status(400).json({msg: "Product has exists"}); 
+        // }
         const newProduct = new Products({
-            product_id, title: title.toLowerCase(), price, stock, description, images, category, minimum, unit
+            title: title.toLowerCase(), price, stock, description, images, category, minimum, unit
         })
         await newProduct.save()
         res.status = 200;
