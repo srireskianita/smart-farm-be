@@ -14,7 +14,7 @@ router.route('/')
   })
 .post(async(req, res, next) => {
     try {
-        const {product_id, title, price, description, images, category} = req.body;
+        const {product_id, title, price, stock, description, images, category, minimum, unit} = req.body;
         if(!images){
             return res.status(400).json({msg: "No images upload"});
         }
@@ -23,7 +23,7 @@ router.route('/')
             return res.status(400).json({msg: "Product has exists"}); 
         }
         const newProduct = new Products({
-            product_id, title: title.toLowerCase(), price, description, images, category
+            product_id, title: title.toLowerCase(), price, stock, description, images, category, minimum, unit
         })
         await newProduct.save()
         res.status = 200;
@@ -38,12 +38,12 @@ router.route('/')
 router.route('/:id')
 .put(async(req, res, next) => {
     try {
-        const{title, price, description, images, category} = req.body
+        const{title, price, stock, description, images, category, minimum, unit} = req.body
         if(!images){
             return res.status(400).json({msg: "No images upload"});
         }
         await Products.findOneAndUpdate({_id: req.params.id},{
-            title: title.toLowerCase(), price, description, category 
+            title: title.toLowerCase(), price, stock, description, images, category, minimum, unit
         })
         res.status = 200;
         res.setHeader('Content-type', 'application/json');
