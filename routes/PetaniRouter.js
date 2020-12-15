@@ -16,31 +16,17 @@ petaniRouter
   })
   .post(async (req, res, next) => {
     try {
-      const {
-        name,
-        email,
-        password,
-        address,
-        phoneNumber,
-        accountType,
-      } = req.body;
-
-      const petani = await Petani.findOne({ email });
+      const petani = await Petani.findOne({ email: req.body.email });
       if (petani) {
-        const err = new Error("Petani already exists.");
+        const err = new Error("Email already in use.");
         err.status = 400;
         next(err);
       }
-      const newPetani = new Petani({
-        name,
-        email,
-        password,
-        address,
-        phoneNumber,
-        accountType,
-      });
+      const newPetani = new Petani(req.body);
       await newPetani.save();
-      res.status(200).json({ message: "Petani registered successfully!" });
+      res
+        .status(200)
+        .json({ message: "Petani registered successfully!", data: req.body });
     } catch (error) {
       const err = new Error(error);
       next(err);
@@ -76,27 +62,17 @@ petaniRouter
   })
   .put(async (req, res, next) => {
     try {
-      const {
-        name,
-        email,
-        password,
-        address,
-        phoneNumber,
-        accountType,
-      } = req.body;
-      await Petani.findOneAndUpdate(
+      const petani = await Petani.findOne({ email: req.body.email });
+      if (petani) {
+        const err = new Error("Email already in use.");
+        err.status = 400;
+        next(err);
+      }
+      const data = await Petani.findOneAndUpdate(
         { _id: req.params.id },
-        {
-          name,
-          email,
-          password,
-          address,
-          phoneNumber,
-          accountType,
-        }
+        req.body
       );
-
-      res.json({ message: "Petani updated sucessfully!" });
+      res.json({ message: "Petani updated sucessfully!", data: req.body });
     } catch (error) {
       const err = new Error(error);
       next(err);

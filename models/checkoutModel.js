@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+require("mongoose-currency").loadType(mongoose);
+var Currency = mongoose.Types.Currency;
+
 const checkoutSchema = new mongoose.Schema(
   {
     alamat: {
@@ -7,8 +10,9 @@ const checkoutSchema = new mongoose.Schema(
       required: true,
     },
     total: {
-      type: Number,
+      type: Currency,
       required: true,
+      min: 0,
     },
     metode: {
       type: String,

@@ -15,16 +15,11 @@ checkoutRouter
   })
   .post(async (req, res, next) => {
     try {
-      const { alamat, total, metode, kurir, durasi } = req.body;
-      const newCheckout = new Checkout({
-        alamat,
-        total,
-        metode,
-        kurir,
-        durasi,
-      });
+      const newCheckout = new Checkout(req.body);
       await newCheckout.save();
-      res.status(200).json({ message: "Checkout successfully!" });
+      res
+        .status(200)
+        .json({ message: "Checkout successfully!", data: req.body });
     } catch (error) {
       const err = new Error(error);
       next(err);

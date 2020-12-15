@@ -1,44 +1,34 @@
-require("dotenv").config();
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-const fileUpload = require("express-fileupload");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var mongoose = require("mongoose"); //added
+require('dotenv').config()
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+const fileUpload = require('express-fileupload')
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var mongoose = require('mongoose'); //added
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var producRouter = require("./routes/productRouter");
-var uploadRouter = require("./routes/uploadRouter");
-var categoryRouter = require("./routes/categoryRouter");
-var customerRouter = require("./routes/customerRouter");
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var producRouter = require('./routes/productRouter');
+var uploadRouter = require('./routes/uploadRouter');
+var categoryRouter = require('./routes/categoryRouter');
+var customerRouter = require('./routes/customerRouter');
 var authRoutes = require("./routes/authRouter");
-const petaniRouter = require("./routes/PetaniRouter");
-const checkoutRouter = require("./routes/CheckoutRouter");
-const farmRouter = require("./routes/farmRouter");
 var verifyToken = require("./routes/validate-token");
 
 var app = express();
 //mongodb local
 // var url = 'mongodb://localhost:27017/smartFarm';//added
 //mongodb cloud
-var url = `mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false/delharvest`;
-var connect = mongoose.connect(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-}); //added
+var url = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.kp0io.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`
+var connect = mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}); //added
 
-connect.then(
-  (db) => {
-    //added
-    console.log("Berhasil connect Mongo DB");
-  },
-  (err) => {
-    console.log("Error DB: " + err);
-  }
-);
+connect.then((db) => { //added 
+  console.log('Berhasil connect Mongo DB');
+}, (err) => {
+  console.log('Error DB: ' + err)
+});
 
 //auth
 // function auth (req,res,next){
@@ -68,46 +58,44 @@ connect.then(
 // app.use(auth)
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
-app.use(logger("dev"));
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-app.use(
-  fileUpload({
-    useTempFiles: true,
-  })
-);
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload({
+  useTempFiles: true
+}))
 
 //Menuju router
-app.use("/", indexRouter);
-app.use("/product", producRouter);
-app.use("/upload", uploadRouter);
-app.use("/category", categoryRouter);
-app.use("/customer", verifyToken, customerRouter);
+app.use('/', indexRouter);
+app.use('/product',producRouter);
+app.use('/upload',uploadRouter);
+app.use('/category',categoryRouter);
+app.use('/customer',verifyToken,customerRouter);
 app.use("/user", authRoutes);
-app.use("/petani", petaniRouter);
-app.use("/checkout", checkoutRouter);
-app.use("/farm", farmRouter);
+
+
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   next(createError(404));
 });
 
+
+
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
   // render the error page
   res.status(err.status || 500);
-  res.send({
-    error: {
-      status: err.status || 500,
-      message: err.message,
-    },
-  });
+  res.render('error');
 });
 
 module.exports = app;

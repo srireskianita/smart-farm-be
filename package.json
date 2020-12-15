@@ -23,7 +23,9 @@
     "mongoose": "^5.10.15",
     "mongoose-currency": "^0.2.0",
     "moongoose": "0.0.5",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "node-fetch": "^2.6.1",
+    "node-geocoder": "^3.27.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
