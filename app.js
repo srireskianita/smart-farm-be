@@ -16,6 +16,7 @@ var categoryRouter = require('./routes/categoryRouter');
 var customerRouter = require('./routes/customerRouter');
 var authRoutes = require("./routes/authRouter");
 var deliveryRouter = require("./routes/deliveryRouter");
+var cartRouter = require('./routes/cartRouter');
 var verifyToken = require("./routes/validate-token");
 
 var app = express();
