@@ -84,8 +84,6 @@ app.use(
 );
 
 app.use(cors());
-
-app.use(cors);
 //Menuju router
 app.use("/", indexRouter);
 app.use("/product", producRouter);
