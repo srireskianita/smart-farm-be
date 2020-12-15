@@ -15,6 +15,7 @@ var uploadRouter = require('./routes/uploadRouter');
 var categoryRouter = require('./routes/categoryRouter');
 var customerRouter = require('./routes/customerRouter');
 var authRoutes = require("./routes/authRouter");
+var deliveryRouter = require("./routes/deliveryRouter");
 var verifyToken = require("./routes/validate-token");
 
 var app = express();
@@ -76,6 +77,7 @@ app.use('/product',producRouter);
 app.use('/upload',uploadRouter);
 app.use('/category',categoryRouter);
 app.use('/customer',verifyToken,customerRouter);
+app.use('/delivery',deliveryRouter);
 app.use("/user", authRoutes);
 
 
