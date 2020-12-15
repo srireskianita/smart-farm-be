@@ -6,7 +6,7 @@ const fileUpload = require("express-fileupload");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose"); //added
-
+var cors = require("cors");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var producRouter = require("./routes/productRouter");
@@ -83,11 +83,9 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
-});
+app.use(cors());
+
+app.use(cors);
 //Menuju router
 app.use("/", indexRouter);
 app.use("/product", producRouter);
