@@ -83,6 +83,11 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
 //Menuju router
 app.use("/", indexRouter);
 app.use("/product", producRouter);
