@@ -21,8 +21,7 @@ var app = express();
 //mongodb local
 // var url = 'mongodb://localhost:27017/smartFarm';//added
 //mongodb cloud
-//var url = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.kp0io.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`
-var url = "mongodb://admin:admin123456@mycluster-shard-00-00.0hwxs.mongodb.net:27017,mycluster-shard-00-01.0hwxs.mongodb.net:27017,mycluster-shard-00-02.0hwxs.mongodb.net:27017/test?ssl=true&replicaSet=atlas-uj50x0-shard-0&authSource=admin&retryWrites=true&w=majority";
+var url = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.kp0io.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`
 var connect = mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}); //added
 
 connect.then((db) => { //added 
