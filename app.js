@@ -21,6 +21,7 @@ var app = express();
 //mongodb local
 // var url = 'mongodb://localhost:27017/smartFarm';//added
 //mongodb cloud
+<<<<<<< Updated upstream
 var url = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.kp0io.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`
 var connect = mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}); //added
 
@@ -29,6 +30,24 @@ connect.then((db) => { //added
 }, (err) => {
   console.log('Error DB: ' + err)
 });
+=======
+//var url = `mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false/delharvest`;
+var connect = mongoose.connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+}); //added
+
+connect.then(
+  (db) => {
+    //added
+    console.log("Berhasil connect Mongo DB");
+  },
+  (err) => {
+    console.log("Error DB: " + err);
+  }
+);
+>>>>>>> Stashed changes
 
 //auth
 // function auth (req,res,next){
