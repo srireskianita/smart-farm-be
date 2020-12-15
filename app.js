@@ -21,7 +21,8 @@ var app = express();
 //mongodb local
 // var url = 'mongodb://localhost:27017/smartFarm';//added
 //mongodb cloud
-var url = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.kp0io.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`
+
+var url = `${process.env.MONGO_URL}`
 var connect = mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}); //added
 
 connect.then((db) => { //added 
