@@ -25,7 +25,7 @@ const customerSchema = new mongoose.Schema({
     accountType: {
         type:String,
         require: true,
-        enum: ["Seller", "Customer"]
+        enum: ["Petani", "Customer"]
     },
 
 },{

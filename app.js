@@ -90,16 +90,16 @@ app.use(cors());
 //Menuju router
 
 app.use('/', indexRouter);
-app.use('/product',producRouter);
-app.use('/upload',uploadRouter);
-app.use('/category',categoryRouter);
+app.use('/product',verifyToken,producRouter);
+app.use('/upload',verifyToken,uploadRouter);
+app.use('/category',verifyToken,categoryRouter);
 app.use('/customer',verifyToken,customerRouter);
-app.use('/delivery',deliveryRouter);
-app.use('/cart', cartRouter);
+app.use('/delivery',verifyToken,deliveryRouter);
+app.use('/cart',verifyToken, cartRouter);
 app.use("/user", authRoutes);
-app.use("/petani", petaniRouter);
-app.use("/farm", farmRouter);
-app.use("/checkout", checkoutRouter);
+app.use("/petani", verifyToken, petaniRouter);
+app.use("/farm", verifyToken,farmRouter);
+app.use("/checkout",verifyToken,checkoutRouter);
 app.use("/userPetani", authPetaniRouter);
 
 // catch 404 and forward to error handler
