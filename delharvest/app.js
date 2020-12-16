@@ -14,19 +14,16 @@ var producRouter = require('./routes/productRouter');
 var uploadRouter = require('./routes/uploadRouter');
 var categoryRouter = require('./routes/categoryRouter');
 var customerRouter = require('./routes/customerRouter');
-var paymentRouter = require('./routes/paymentRouter');
-var userCartRouter = require('./routes/userCartRouter');
 var authRoutes = require("./routes/authRouter");
-
-
 var verifyToken = require("./routes/validate-token");
 
 var app = express();
 //mongodb local
-// var url = 'mongodb://localhost:27017/smartFarm';//added
+var url = 'mongodb://localhost:27017/smart-farm';//added
 //mongodb cloud
 //var url = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.kp0io.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`
-var url = "mongodb://admin:admin123456@mycluster-shard-00-00.0hwxs.mongodb.net:27017,mycluster-shard-00-01.0hwxs.mongodb.net:27017,mycluster-shard-00-02.0hwxs.mongodb.net:27017/smart-farm?ssl=true&replicaSet=atlas-uj50x0-shard-0&authSource=admin&retryWrites=true&w=majority"
+//var url = "mongodb://admin:admin123456@mycluster-shard-00-00.0hwxs.mongodb.net:27017,mycluster-shard-00-01.0hwxs.mongodb.net:27017,mycluster-shard-00-02.0hwxs.mongodb.net:27017/smart-farm?ssl=true&replicaSet=atlas-uj50x0-shard-0&authSource=admin&retryWrites=true&w=majority"
+//var url  = "mongodb://admin:admin123@cluster0-shard-00-00.kp0io.mongodb.net:27017,cluster0-shard-00-01.kp0io.mongodb.net:27017,cluster0-shard-00-02.kp0io.mongodb.net:27017/smart-farm?ssl=true&replicaSet=atlas-154yev-shard-0&authSource=admin&retryWrites=true&w=majority"
 var connect = mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}); //added
 
 connect.then((db) => { //added 
@@ -34,12 +31,6 @@ connect.then((db) => { //added
 }, (err) => {
   console.log('Error DB: ' + err)
 });
-//var url = `mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false/delharvest`;
-var connect = mongoose.connect(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-}); //added
 
 //auth
 // function auth (req,res,next){
@@ -88,9 +79,6 @@ app.use('/upload',uploadRouter);
 app.use('/category',categoryRouter);
 app.use('/customer',verifyToken,customerRouter);
 app.use("/user", authRoutes);
-app.use("/payment", paymentRouter);
-app.use("/userCart", userCartRouter);
-
 
 
 
