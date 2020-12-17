@@ -89,7 +89,7 @@ app.use('/category',categoryRouter);
 app.use('/customer',verifyToken,customerRouter);
 app.use("/user", authRoutes);
 app.use("/payment", paymentRouter);
-app.use("/userCart", userCartRouter);
+app.use("/history", userCartRouter);
 
 
 

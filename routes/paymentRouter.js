@@ -17,15 +17,22 @@ router.route('/')
   .post(async(req, res, next) => {
         //Membuat data payment
         try {
-            const customer = await customers.findById(req.user.id).select('name email')
-        if(!customer) return res.status(400).json({msg: "User does not exist."})
+        //req.user.id diambil saat customer telah login
+        //     const customer = await customers.findById(req.user.id).select('name email')
+        // if(!customer) return res.status(400).json({msg: "User does not exist."})
 
-        const {cart, paymentID, address} = req.body;
+        // const {cart, paymentID, address} = req.body;
+        const {cart, paymentID, address, user_id, name, email} = req.body;
+        
 
-        const {_id, name, email} = customer;
+        // const {_id, name, email} = customer;
+
+        // const newPayment = new Payments({
+        //     user_id: _id, name, email, cart, paymentID, address
+        // })
 
         const newPayment = new Payments({
-            user_id: _id, name, email, cart, paymentID, address
+            cart, paymentID, address, user_id, name, email
         })
         
         await newPayment.save()
