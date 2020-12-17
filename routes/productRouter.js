@@ -3,7 +3,7 @@ const Products = require('../models/productModel')
 
 router.route('/')
 .get(async(req, res, next) => {
-    if(req.user.accountType === 'Petani'){
+    if(req.user.accountType === 'Petani' || req.user.accountType === 'Customer' ){
         try {
             const products = await Products.find();
             res.status = 200;
