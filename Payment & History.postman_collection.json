@@ -1,0 +1,136 @@
+{
+	"info": {
+		"_postman_id": "fd759657-059a-47f5-a729-486e2e2b1813",
+		"name": "Payment & History",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "http://localhost:3000/payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cart\" : [ \r\n        {\r\n            \"stock\" : 5,\r\n            \"minimum\" : 1,\r\n            \"_id\" : \"5fd9615b6016402ff86e5591\",\r\n            \"title\" : \"bayam\",\r\n            \"price\" : 6000,\r\n            \"images\" : {\r\n                \"public_id\" : \"test/nclg7pc1qfwamgzs7skt\",\r\n                \"url\" : \"https://res.cloudinary.com/db5sk8dex/image/upload/v1608081722/test/nclg7pc1qfwamgzs7skt.jpg\"\r\n            },\r\n            \"description\" : \"Wortel segar dan murah\",\r\n            \"category\" : \"Sayuran\",\r\n            \"unit\" : \"Kg\",\r\n            \"__v\" : 0,\r\n            \"quantity\" : 2\r\n        }, \r\n        {\r\n            \"stock\" : 5,\r\n            \"minimum\" : 1,\r\n            \"_id\" : \"5fd8f704aea14a8417ad0f5e\",\r\n            \"title\" : \"wortel 2\",\r\n            \"price\" : 6000,\r\n            \"images\" : {\r\n                \"public_id\" : \"test/vhveunhgvsapkrdilwsi\",\r\n                \"url\" : \"https://res.cloudinary.com/db5sk8dex/image/upload/v1608017203/test/vhveunhgvsapkrdilwsi.jpg\"\r\n            },\r\n            \"description\" : \"Wortel segar dan murah\",\r\n            \"category\" : \"Sayuran\",\r\n            \"unit\" : \"Kg\",\r\n            \"quantity\" : 2\r\n        }\r\n    ],\r\n    \"user_id\" : \"5fd9b7f5e863586020621b63\",\r\n    \"name\" : \"user01\",\r\n    \"email\" : \"user01@gmail.com\",\r\n    \"paymentID\" : \"PAYID-L7NA63A9N619950PX944410A\",\r\n    \"address\" : {\r\n        \"recipient_name\" : \"John Doe\",\r\n        \"line1\" : \"Jl Senopati 1\",\r\n        \"city\" : \"Jakarta\",\r\n        \"state\" : \"Jakarta\",\r\n        \"postal_code\" : \"12110\",\r\n        \"country_code\" : \"ID\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"payment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/payment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/D:/SOAL2 DTI/kangkung.jpg"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/payment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"payment"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "History",
+			"item": [
+				{
+					"name": "http://localhost:3000/history/5fd9b7f5e863586020621b63",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/history/5fd9b7f5e863586020621b63",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"history",
+								"5fd9b7f5e863586020621b63"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/history/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"5Ab9b7f5e863586020621b63\",\r\n    \"cart\" : [ \r\n        {\r\n            \"stock\" : 5,\r\n            \"minimum\" : 1,\r\n            \"_id\" : \"5fd9615b6016402ff86e5591\",\r\n            \"title\" : \"bayam\",\r\n            \"price\" : 6000,\r\n            \"images\" : {\r\n                \"public_id\" : \"test/nclg7pc1qfwamgzs7skt\",\r\n                \"url\" : \"https://res.cloudinary.com/db5sk8dex/image/upload/v1608081722/test/nclg7pc1qfwamgzs7skt.jpg\"\r\n            },\r\n            \"description\" : \"Wortel segar dan murah\",\r\n            \"category\" : \"Sayuran\",\r\n            \"unit\" : \"Kg\",\r\n            \"__v\" : 0,\r\n            \"quantity\" : 2\r\n        }, \r\n        {\r\n            \"stock\" : 5,\r\n            \"minimum\" : 1,\r\n            \"_id\" : \"5fd8f704aea14a8417ad0f5e\",\r\n            \"title\" : \"wortel 2\",\r\n            \"price\" : 6000,\r\n            \"images\" : {\r\n                \"public_id\" : \"test/vhveunhgvsapkrdilwsi\",\r\n                \"url\" : \"https://res.cloudinary.com/db5sk8dex/image/upload/v1608017203/test/vhveunhgvsapkrdilwsi.jpg\"\r\n            },\r\n            \"description\" : \"Wortel segar dan murah\",\r\n            \"category\" : \"Sayuran\",\r\n            \"unit\" : \"Kg\",\r\n            \"quantity\" : 2\r\n        }\r\n    ]\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/history/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"history",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
