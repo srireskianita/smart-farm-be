@@ -17,30 +17,29 @@ router.route('/')
   .post(async(req, res, next) => {
         //Membuat data payment
         try {
-        //req.user.id diambil saat customer telah login
-        //     const customer = await customers.findById(req.user.id).select('name email')
-        // if(!customer) return res.status(400).json({msg: "User does not exist."})
-
-        // const {cart, paymentID, address} = req.body;
         const {cart, paymentID, address, user_id, name, email} = req.body;
-        
-
-        // const {_id, name, email} = customer;
-
-        // const newPayment = new Payments({
-        //     user_id: _id, name, email, cart, paymentID, address
-        // })
 
         const newPayment = new Payments({
             cart, paymentID, address, user_id, name, email
         })
-        
         await newPayment.save()
         res.status = 200;
         res.setHeader('Content-type', 'application/json');
         res.json({msg: "Payment Succes!"})
     } catch (err) {
         return res.status(500).json({msg: err.msg});
+    }
+  })
+
+  //Untuk keperluan history pembayaran oleh pembeli
+  router.route('/:id')
+  .get(async(req, res, next) => { 
+    try {
+        const history = await Payments.find({user_id: req.params.id})
+
+        res.json(history) 
+    } catch (err) {
+        return res.status(500).json({msg: err.message})
     }
   })
 
