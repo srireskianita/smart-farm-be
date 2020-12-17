@@ -1,6 +1,7 @@
 require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
+var session = require('express-session');
 var path = require("path");
 const fileUpload = require("express-fileupload");
 var cookieParser = require("cookie-parser");
@@ -13,7 +14,6 @@ var producRouter = require("./routes/productRouter");
 var uploadRouter = require("./routes/uploadRouter");
 var paymentRouter = require("./routes/paymentRouter");
 var historyRouter = require("./routes/historyRouter");
-var categoryRouter = require("./routes/categoryRouter");
 var customerRouter = require("./routes/customerRouter");
 var authRoutes = require("./routes/authRouter");
 var deliveryRouter = require("./routes/deliveryRouter");
@@ -81,6 +81,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({secret: "This is a secret"}));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   fileUpload({
@@ -96,7 +97,6 @@ app.use('/product',verifyToken,producRouter);
 app.use('/upload',verifyToken,uploadRouter);
 app.use('/payment',verifyToken,paymentRouter);
 app.use('/history',verifyToken,historyRouter);
-app.use('/category',verifyToken,categoryRouter);
 app.use('/customer',verifyToken,customerRouter);
 app.use('/delivery',verifyToken,deliveryRouter);
 app.use('/cart',verifyToken, cartRouter);

@@ -7,7 +7,8 @@ const registerValidation = (data) => {
     email: Joi.string().min(6).max(255).required().email(),
     password: Joi.string().min(6).max(1024).required(),
     phoneNumber: Joi.number().required(),
-    accountType: Joi.string().required()
+    accountType: Joi.string().required(),
+    isVerified: Joi.bool().default(false)
   });
 
   return schema.validate(data);

@@ -27,6 +27,10 @@ const customerSchema = new mongoose.Schema({
         require: true,
         enum: ["Petani", "Customer"]
     },
+    isVerified: { 
+        type: Boolean, 
+        default: false 
+    },
 
 },{
     timestamps: true
