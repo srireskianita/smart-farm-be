@@ -26,7 +26,8 @@ const productSchema = new mongoose.Schema({
     },
     category: {
         type: String,
-        required: true
+        required: true,
+        enum: ["Sayuran", "Buah"]
     },
     //Minimal pembelian 
     minimum: {
