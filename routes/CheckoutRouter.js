@@ -1,6 +1,8 @@
 const express = require("express");
 const checkoutRouter = express.Router();
 const Checkout = require("../models/checkoutModel");
+const Customer = require("../models/customerModel");
+const Petani = require("../models/petaniModel");
 
 checkoutRouter
   .route("/")
@@ -15,11 +17,25 @@ checkoutRouter
   })
   .post(async (req, res, next) => {
     try {
-      const newCheckout = new Checkout(req.body);
-      await newCheckout.save();
-      res
-        .status(200)
-        .json({ message: "Checkout successfully!", data: req.body });
+      const user =
+        (await Customer.findById(req.user.id)) ||
+        (await Petani.findById(req.user.id));
+      const { alamat, total, metode, kurir, durasi } = req.body;
+      const newCheckout = new Checkout({
+        alamat,
+        total,
+        metode,
+        kurir,
+        durasi,
+        pembeli: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+        },
+      });
+      const result = await newCheckout.save();
+      res.status(200).json({ message: "Checkout successfully!", data: result });
     } catch (error) {
       const err = new Error(error);
       next(err);

@@ -24,6 +24,20 @@ const checkoutSchema = new mongoose.Schema(
     durasi: {
       type: String,
     },
+    pembeli: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+      },
+      name: {
+        type: String,
+      },
+      email: {
+        type: String,
+      },
+      phoneNumber: {
+        type: Number,
+      },
+    },
   },
   {
     timestamps: true,
