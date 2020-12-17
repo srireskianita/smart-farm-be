@@ -3,7 +3,6 @@ const Delivery = require('../models/deliveryModel')
 
 router.route('/')
 .get(async(req, res, next) => {
-    if(req.user.accountType === 'Petani'){
         try {
             const delivery = await Delivery.find();
             res.status = 200;
@@ -12,13 +11,9 @@ router.route('/')
         } catch (err) {
             return res.status(500).json({msg: err.msg});
         }
-    } else {
-        res.status(400).json({ error: "Token is not valid" });
-    }
   })
 
 .post(async(req, res, next) => {
-    if(req.user.accountType === 'Petani'){
         try {
             const {courierId, courierName, duration, destination, cost} = req.body;
             if(!destination){
@@ -34,15 +29,10 @@ router.route('/')
         } catch (err) {
             return res.status(500).json({msg: err.msg});
         }
-    } else {
-        res.status(400).json({ error: "Token is not valid" });
-    }
-   
 })
 
 router.route('/:id')
 .put(async(req, res, next) => {
-    if(req.user.accountType === 'Petani'){
         try {
             const{courierId, courierName, duration, destination, cost} = req.body
             if(!destination){
@@ -57,13 +47,9 @@ router.route('/:id')
         } catch (err) {
             return res.status(500).json({msg: err.msg});
         }
-    } else {
-        res.status(400).json({ error: "Token is not valid" });
-    }
     
 })
 .delete(async(req, res, next) => {
-    if(req.user.accountType === 'Petani'){
         try {
             await Delivery.findByIdAndDelete(req.params.id)
             res.status = 200;
@@ -72,9 +58,6 @@ router.route('/:id')
         } catch (err) {
             return res.status(500).json({msg: err.msg});
         }
-    } else {
-        res.status(400).json({ error: "Token is not valid" });
-    }
 })
 
 

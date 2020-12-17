@@ -58,12 +58,12 @@ router.route('/:id')
     }
 })
 .get((req,res,next) => {
-    Customer.findById(req.params.id).then((dish) => {
+    Customer.findById(req.params.id).then((customer) => {
         res.status = 200 ;
         res.setHeader('Content-Type', 'application/json');
-        res.json(dish);
+        res.json(customer);
     });
-})
+});
 
 
 module.exports = router
