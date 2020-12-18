@@ -42,7 +42,7 @@ router.post("/register", async (req, res) => {
       },
       process.env.TOKEN_SECRET,
       {
-        expiresIn: 60 * 60 * 24 * 14,
+        expiresIn: '1h',
       }
     );
 
@@ -61,9 +61,9 @@ router.post("/register", async (req, res) => {
     const data = {
       from: 'no-reply@delharvest.com',
       to: savedUser.email,
-      subject: "Your Activation Link for YOUR APP",
-      text: `Please use the following link within the next 10 minutes to activate your account on YOUR APP: ${baseUrl}/user/verification/verify-account/${savedUser._id}/${secretCode}`,
-      html: `<p>Please use the following link within the next 10 minutes to activate your account on YOUR APP: <strong><a href="${baseUrl}/user/verification/verify-account/${savedUser._id}/${secretCode}" target="_blank">Email Confirmation</a></strong></p>`,
+      subject: "Your Activation Link for DEL HARVEST",
+      text: `Please use the following link within the next 1 hour to activate your account on DEL HARVEST: ${baseUrl}/user/verification/verify-account/${savedUser._id}/${secretCode}`,
+      html: `<p>Please use the following link within the next 1 hour to activate your account on DEL HARVEST: <strong><a href="${baseUrl}/user/verification/verify-account/${savedUser._id}/${secretCode}" target="_blank">Email Confirmation</a></strong></p>`,
     };
     await emailService.sendMail(data);
 
@@ -122,11 +122,11 @@ router.post("/login", async (req, res, next) => {
   try{
   const user = await User.findOne({ email: req.body.email });
 
-  if (!user) return res.status(202).send({ error: "Email is wrong" });
+  if (!user) return res.status(401).send({ error: "Email is wrong" });
 
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword)
-    return res.status(202).send({ error: "Password is wrong" });
+    return res.status(401).send({ error: "Password is wrong" });
 
   const token = jwt.sign(
     // payload data
@@ -136,7 +136,10 @@ router.post("/login", async (req, res, next) => {
       accountType: user.accountType,
       isVerified: user.isVerified
     },
-    process.env.TOKEN_SECRET
+    process.env.TOKEN_SECRET,
+    {
+      expiresIn: '24h',
+    }
   );
 
   if(user.isVerified === true){
@@ -151,7 +154,7 @@ router.post("/login", async (req, res, next) => {
       },
     })
   } else {
-    res.status(201).json({ 
+    res.status(401).json({ 
       success: false,
       message : 'Your account is not active'
     });

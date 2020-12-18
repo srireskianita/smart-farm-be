@@ -27,8 +27,10 @@ router.route('/')
         res.status = 200;
         res.setHeader('Content-type', 'application/json');
         res.json({msg : "Created a Customer success"});
-    } catch (err) {
-        return res.status(500).json({msg: err.msg});
+    } catch (error) {
+        const err = new Error("Error add Customer");
+        err.status = 404;
+        next(err);
     }
   })
 
@@ -43,9 +45,11 @@ router.route('/:id')
         res.status = 200;
         res.setHeader('Content-type', 'application/json');
         res.json({msg: "Update a Product"}); 
-    } catch (err) {
-        return res.status(500).json({msg: err.msg});
-    }
+    } catch (error) {
+        const err = new Error(error);
+        err.status = 400;
+        next(err);
+      }
 })
 .delete(async(req, res, next) => {
     try {
@@ -53,16 +57,24 @@ router.route('/:id')
         res.status = 200;
         res.setHeader('Content-type', 'application/json');
         res.json({msg: "Delete a customer is success"})
-    } catch (err) {
-        return res.status(500).json({msg: err.msg});
+    } catch (error) {
+        const err = new Error(error);
+        err.status = 400;
+        next(err);
     }
 })
 .get((req,res,next) => {
-    Customer.findById(req.params.id).then((customer) => {
-        res.status = 200 ;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(customer);
-    });
+    try {
+        Customer.findById(req.params.id).then((customer) => {
+            res.status = 200 ;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(customer);
+        });
+    }catch (error) {
+        const err = new Error('Customer not found');
+        err.status = 404;
+        next(err);
+    }
 });
 
 
