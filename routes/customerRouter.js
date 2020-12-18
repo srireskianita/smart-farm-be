@@ -44,7 +44,7 @@ router.route('/:id')
         })
         res.status = 200;
         res.setHeader('Content-type', 'application/json');
-        res.json({msg: "Update a Product"}); 
+        res.json({msg: "Update a Customer"}); 
     } catch (error) {
         const err = new Error(error);
         err.status = 400;
