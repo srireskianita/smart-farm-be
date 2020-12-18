@@ -121,11 +121,11 @@ router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
 
-    if (!user) return res.status(400).json({ error: "Email is wrong" });
+    if (!user) return res.status(202).json({ error: "Email is wrong" });
 
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword)
-      return res.status(400).json({ error: "Password is wrong" });
+      return res.status(202).json({ error: "Password is wrong" });
 
     const token = jwt.sign(
       // payload data
@@ -138,7 +138,7 @@ router.post("/login", async (req, res) => {
       process.env.TOKEN_SECRET
     );
     if (user.isVerified === true) {
-      res.header("auth-token", token).json({
+      res.header("auth-token", token).status(200).json({
         success: true,
         error: null,
         data: {
@@ -149,7 +149,7 @@ router.post("/login", async (req, res) => {
         },
       });
     } else {
-      res.json({
+      res.status(201).json({
         success: false,
         message: 'Your account is not active'
       });
