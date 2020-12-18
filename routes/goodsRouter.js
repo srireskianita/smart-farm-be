@@ -58,8 +58,11 @@ router.route('/:id')
         const goods = await Goods.findById({_id : req.params.id})
         const {purchased_stock, id_product} = req.body
         const products = await Products.findById(id_product)
-        if(purchased_stock<0 || !goods){
+        if(purchased_stock<0){
             return res.status(500).json({msg: "Barang yang ingin diupdate tidak ada"})
+        }
+        if(!goods){
+            return res.status(500).json({msg: "Goods tidak ada"})
         }
         
         const oldItem = goods.purchased_stock;
