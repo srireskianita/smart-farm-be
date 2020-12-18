@@ -14,6 +14,7 @@ const goodsSchema = new mongoose.Schema({
     purchased_stock: {
         type: Number,
         required: true,
+        default: 0
     },
     cart: {
         type: Array,

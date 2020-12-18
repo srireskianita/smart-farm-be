@@ -7,13 +7,11 @@ router.route('/')
 .post(async(req, res, next) => {
     try {
         
-        const products = await Products.findById(req.body.id);
+        const products = await Products.findById({_id: req.body.id});
         const customers = await Customers.findById({_id : req.body.id_user});
-        //var id_product = req.body.id;
         if(!products || !customers){
             return res.status(500).json({msg: "1 error"})
         }else{
-            //const products2 = await Products.findById(id_product)
             if(products.stock === 0 || products.stock < req.body.purchased_stock){
                 return res.status(500).json({msg: "Barang sudah habis atau tidak cukup"})
             }else{
@@ -57,11 +55,10 @@ router.route('/:id')
   })
 .put(async(req, res, next) => {
     try {
-        //const item = await Goods.findById(req.params.id);
         const goods = await Goods.findById({_id : req.params.id})
         const {purchased_stock, id_product} = req.body
         const products = await Products.findById(id_product)
-        if(purchased_stock<0 || products.stock < req.body.purchased_stock || !goods){
+        if(purchased_stock<0 || !goods){
             return res.status(500).json({msg: "Barang yang ingin diupdate tidak ada"})
         }
         
@@ -71,15 +68,21 @@ router.route('/:id')
             await Products.findOneAndUpdate({_id: id_product},{
                 stock: stockItem
             })
+            await Goods.findOneAndUpdate({_id: req.params.id}, {
+                purchased_stock: req.body.purchased_stock
+            })
             res.status = 200;
             res.setHeader('Content-type', 'application/json');
             res.json({msg: "Cart updated successfully"}); 
             return res.json({msg: "Update stock item cart and Update stock Product"})
         }
         
-        const stockItem = products.stock - req.body.purchased_stock + oldItem 
+        const stockItem = products.stock - purchased_stock + oldItem 
             await Products.findOneAndUpdate({_id: id_product},{
                 stock: stockItem
+            })
+            await Goods.findOneAndUpdate({_id: req.params.id}, {
+                purchased_stock: req.body.purchased_stock
             })
             res.status = 200;
             res.setHeader('Content-type', 'application/json');
@@ -91,6 +94,18 @@ router.route('/:id')
 })
 .delete(async(req, res, next) => {
         try {
+            const goods = await Goods.findById({_id : req.params.id})
+            const idItem = goods.id_item;
+            const products = await Products.findById({_id : idItem})
+            if(!goods || !products){
+                return res.status(500).json({msg: err.msg});
+            }
+            const oldStock = goods.purchased_stock;
+            const stockProduct = products.stock;
+            const addStock = oldStock + stockProduct;
+            await Products.findOneAndUpdate({_id: idItem},{
+                stock: addStock
+            })
             await Goods.findByIdAndDelete( req.params.id)
             res.status = 200;
             res.setHeader('Content-type', 'application/json');

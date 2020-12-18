@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const Payments = require('../models/paymentModel')
-const customers = require('../models/customerModel')
+const Customers = require('../models/customerModel')
 
 router.route('/')
 .get(async(req, res, next) => {
@@ -18,7 +18,15 @@ router.route('/')
         //Membuat data payment
         try {
         const {cart, paymentID, address, user_id, name, email} = req.body;
-
+        // const idpayment = req.body.paymentID;
+        const customer = await Customers.findById({_id: user_id})
+        const payment_id = await Payments.findOne({paymentID: paymentID})
+        if(!customer){
+            return res.status(500).json({msg: err.msg});
+        }
+        if(payment_id){
+            return res.status(500).json({msg: err.msg});
+        }
         const newPayment = new Payments({
             cart, paymentID, address, user_id, name, email
         })
