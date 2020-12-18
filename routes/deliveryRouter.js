@@ -20,7 +20,7 @@ router.route('/')
                 return res.status(400).json({msg: "No Delivery were set"});
             }
             const newDelivery = new Delivery({
-                title: title.toLowerCase(), courierId, courierName, duration, destination, cost
+                courierId, courierName, duration, destination, cost
             })
             await newDelivery.save()
             res.status = 200;
@@ -34,12 +34,12 @@ router.route('/')
 router.route('/:id')
 .put(async(req, res, next) => {
         try {
-            const{courierId, courierName, duration, destination, cost} = req.body
+            const{courierName, duration, destination, cost} = req.body
             if(!destination){
                 return res.status(400).json({msg: "No Delivery were set"});
             }
-            await Destination.findOneAndUpdate({_id: req.params.id},{
-                title: title.toLowerCase(), courierId, courierName, duration, destination, cost
+            await Delivery.findByIdAndUpdate({_id: req.params.id},{
+                courierName, duration, destination, cost
             })
             res.status = 200;
             res.setHeader('Content-type', 'application/json');
