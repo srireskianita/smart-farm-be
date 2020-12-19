@@ -39,9 +39,9 @@ router.route('/')
 router.route('/:id')
 .put(async(req, res, next) => {
     try {
-        const{name, email, password, address, phoneNumber, accountType} = req.body
-        const salt = await bcrypt.genSalt(10);
-        password = await  bcrypt.hash(password, salt);
+        let{name, email, password, address, phoneNumber, accountType} = req.body
+        let salt = await bcrypt.genSalt(10);
+        password = await bcrypt.hash(password, salt);
         await Customer.findOneAndUpdate({_id: req.params.id},{
             name, email, password, address, phoneNumber, accountType
         })

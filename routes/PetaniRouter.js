@@ -78,14 +78,8 @@ petaniRouter
   .put(async (req, res, next) => {
     if(req.user.accountType === 'Petani'){
       try {
-        const petani = await Petani.findOne({ email: req.body.email });
-        if (petani) {
-          const err = new Error("Email already in use.");
-          err.status = 400;
-          next(err);
-        }
-        const salt = await bcrypt.genSalt(10);
-        req.body.password = bcrypt.hash(req.body.password, salt);
+        let salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
         const data = await Petani.findOneAndUpdate(
           { _id: req.params.id },
           req.body
