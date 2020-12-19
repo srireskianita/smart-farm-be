@@ -1,7 +1,7 @@
 require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
-var session = require('express-session');
+var session = require("express-session");
 var path = require("path");
 const fileUpload = require("express-fileupload");
 var cookieParser = require("cookie-parser");
@@ -17,7 +17,7 @@ var goodsRouter = require("./routes/goodsRouter");
 var customerRouter = require("./routes/customerRouter");
 var authRoutes = require("./routes/authRouter");
 var deliveryRouter = require("./routes/deliveryRouter");
-var cartRouter = require('./routes/cartRouter');
+var cartRouter = require("./routes/cartRouter");
 var verifyToken = require("./routes/validate-token");
 const petaniRouter = require("./routes/PetaniRouter");
 const farmRouter = require("./routes/farmRouter");
@@ -81,7 +81,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({secret: "This is a secret"}));
+app.use(session({ secret: "This is a secret" }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   fileUpload({
@@ -92,18 +92,18 @@ app.use(
 app.use(cors());
 //Menuju router
 
-app.use('/', indexRouter);
-app.use('/product',verifyToken,producRouter);
-app.use('/upload',verifyToken,uploadRouter);
-app.use('/payment',paymentRouter);
-app.use('/goods',goodsRouter);
-app.use('/customer',verifyToken,customerRouter);
-app.use('/delivery',verifyToken,deliveryRouter);
-app.use('/cart',verifyToken, cartRouter);
+app.use("/", indexRouter);
+app.use("/product", verifyToken, producRouter);
+app.use("/upload", verifyToken, uploadRouter);
+app.use("/payment", paymentRouter);
+app.use("/goods", goodsRouter);
+app.use("/customer", verifyToken, customerRouter);
+app.use("/delivery", verifyToken, deliveryRouter);
+app.use("/cart", verifyToken, cartRouter);
 app.use("/user", authRoutes);
 app.use("/petani", verifyToken, petaniRouter);
-app.use("/farm", verifyToken,farmRouter);
-app.use("/checkout",verifyToken,checkoutRouter);
+app.use("/farm", verifyToken, farmRouter);
+app.use("/checkout", verifyToken, checkoutRouter);
 app.use("/userPetani", authPetaniRouter);
 
 // catch 404 and forward to error handler
