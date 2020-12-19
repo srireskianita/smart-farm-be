@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Customer = require('../models/customerModel');
+const bcrypt = require("bcryptjs");
 
 router.route('/')
 .get(async(req, res, next) => {
@@ -39,6 +40,8 @@ router.route('/:id')
 .put(async(req, res, next) => {
     try {
         const{name, email, password, address, phoneNumber, accountType} = req.body
+        const salt = await bcrypt.genSalt(10);
+        password = await  bcrypt.hash(password, salt);
         await Customer.findOneAndUpdate({_id: req.params.id},{
             name, email, password, address, phoneNumber, accountType
         })

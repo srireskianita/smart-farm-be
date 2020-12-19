@@ -140,7 +140,9 @@ router.post("/login", async (req, res) => {
         expiresIn: '24h',
       }
     );
+
     if (user.isVerified === true) {
+      req.session.token = token;
       res.header("auth-token", token).status(200).json({
         success: true,
         error: null,

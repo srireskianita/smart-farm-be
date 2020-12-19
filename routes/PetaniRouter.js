@@ -1,5 +1,6 @@
 const express = require("express");
 const petaniRouter = express.Router();
+const bcrypt = require("bcryptjs");
 
 const Petani = require("../models/petaniModel");
 
@@ -83,6 +84,8 @@ petaniRouter
           err.status = 400;
           next(err);
         }
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = bcrypt.hash(req.body.password, salt);
         const data = await Petani.findOneAndUpdate(
           { _id: req.params.id },
           req.body
