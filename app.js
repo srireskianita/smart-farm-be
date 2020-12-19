@@ -96,8 +96,8 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/product", verifyToken, producRouter);
 app.use("/upload", verifyToken, uploadRouter);
-app.use("/payment", paymentRouter);
-app.use("/goods", goodsRouter);
+app.use("/payment", verifyToken, paymentRouter);
+app.use("/goods",verifyToken, goodsRouter);
 app.use("/customer", verifyToken, customerRouter);
 app.use("/delivery", verifyToken, deliveryRouter);
 app.use("/cart", verifyToken, cartRouter);
@@ -106,7 +106,7 @@ app.use("/petani", verifyToken, petaniRouter);
 app.use("/farm", verifyToken, farmRouter);
 app.use("/checkout", verifyToken, checkoutRouter);
 app.use("/userPetani", authPetaniRouter);
-app.use("/sorting",sortingRouter);
+app.use("/sorting", verifyToken,sortingRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
