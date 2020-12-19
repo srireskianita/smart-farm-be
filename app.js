@@ -23,6 +23,7 @@ const petaniRouter = require("./routes/PetaniRouter");
 const farmRouter = require("./routes/farmRouter");
 const checkoutRouter = require("./routes/CheckoutRouter");
 const authPetaniRouter = require("./routes/authPetaniRouter");
+const sortingRouter = require("./routes/sortingRouter");
 
 var app = express();
 //mongodb local
@@ -105,6 +106,7 @@ app.use("/petani", verifyToken, petaniRouter);
 app.use("/farm", verifyToken,farmRouter);
 app.use("/checkout",verifyToken,checkoutRouter);
 app.use("/userPetani", authPetaniRouter);
+app.use("/sorting",sortingRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
