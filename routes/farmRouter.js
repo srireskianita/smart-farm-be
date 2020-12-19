@@ -6,7 +6,7 @@ const fetch = require("node-fetch");
 farmRouter
   .route("/")
   .get(async (req, res, next) => {
-    if(req.user.accountType === 'Petani'){
+    if (req.user.accountType === "Petani") {
       try {
         const farms = await Farm.find();
         res.json(farms);
@@ -14,12 +14,12 @@ farmRouter
         const err = new Error(error);
         next(err);
       }
-    } else{
+    } else {
       res.status(400).json({ error: "Token is not valid" });
     }
   })
   .post(async (req, res, next) => {
-    if(req.user.accountType === 'Petani'){
+    if (req.user.accountType === "Petani") {
       try {
         const farm = await Farm.findOne({ name: req.body.name });
         if (farm) {
@@ -37,7 +37,6 @@ farmRouter
     } else {
       res.status(400).json({ error: "Token is not valid" });
     }
-  
   })
   .put((req, res, next) => {
     const err = new Error("PUT method is not allowed.");
@@ -53,7 +52,7 @@ farmRouter
 farmRouter
   .route("/:id")
   .get(async (req, res, next) => {
-    if(req.user.accountType === 'Petani'){
+    if (req.user.accountType === "Petani") {
       try {
         const farm = await Farm.findById(req.params.id);
         res.json(farm);
@@ -62,11 +61,9 @@ farmRouter
         err.status = 404;
         next(err);
       }
-    }
-    else {
+    } else {
       res.status(400).json({ error: "Token is not valid" });
     }
-    
   })
   .post((req, res, next) => {
     const err = new Error("POST method is not allowed.");
@@ -74,13 +71,13 @@ farmRouter
     next(err);
   })
   .put(async (req, res, next) => {
-    if(req.user.accountType === 'Petani'){
+    if (req.user.accountType === "Petani") {
       try {
         const data = await Farm.findOneAndUpdate(
           { _id: req.params.id },
           req.body
         );
-  
+
         res.json({ message: "Farm updated sucessfully!", data: req.body });
       } catch (error) {
         const err = new Error(error);
@@ -89,10 +86,9 @@ farmRouter
     } else {
       res.status(400).json({ error: "Token is not valid" });
     }
-    
   })
   .delete(async (req, res, next) => {
-    if(req.user.accountType === 'Petani'){
+    if (req.user.accountType === "Petani") {
       try {
         await Farm.findByIdAndDelete(req.params.id);
         res.json({ message: "Farm deleted successfully." });
@@ -103,50 +99,48 @@ farmRouter
     } else {
       res.status(400).json({ error: "Token is not valid" });
     }
-   
   });
 
 farmRouter
   .route("/:id/condition")
   .get(async (req, res, next) => {
-    if(req.user.accountType === 'Petani'){
+    if (req.user.accountType === "Petani") {
       const farm = await Farm.findById(req.params.id);
 
-    Promise.all([
-      fetch(
-        `https://api.ambeedata.com/weather/latest/by-lat-lng?lat=${farm.location.coordinates[1]}&lng=${farm.location.coordinates[0]}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": "udhGS4H0r4lE7oDMTwZG2BGU5CbXOhz5f1FAKDyf",
-          },
-        }
-      ),
-      fetch(
-        `https://api.ambeedata.com/soil/latest/by-lat-lng?lat=${farm.location.coordinates[1]}&lng=${farm.location.coordinates[0]}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-api-key": process.env.AMBIDATA_API,
-          },
-        }
-      ),
-    ])
-      .then(async (response) => {
-        const data = {
-          cuaca: await response[0].json(),
-          tanah: await response[1].json(),
-        };
-        res.json(data);
-      })
-      .catch((error) => {
-        const err = new Error(error);
-        next(err);
-      });
+      Promise.all([
+        fetch(
+          `https://api.ambeedata.com/weather/latest/by-lat-lng?lat=${farm.location.coordinates[1]}&lng=${farm.location.coordinates[0]}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": "udhGS4H0r4lE7oDMTwZG2BGU5CbXOhz5f1FAKDyf",
+            },
+          }
+        ),
+        fetch(
+          `https://api.ambeedata.com/soil/latest/by-lat-lng?lat=${farm.location.coordinates[1]}&lng=${farm.location.coordinates[0]}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-api-key": process.env.AMBIDATA_API,
+            },
+          }
+        ),
+      ])
+        .then(async (response) => {
+          const data = {
+            cuaca: await response[0].json(),
+            tanah: await response[1].json(),
+          };
+          res.json(data);
+        })
+        .catch((error) => {
+          const err = new Error(error);
+          next(err);
+        });
     } else {
       res.status(400).json({ error: "Token is not valid" });
     }
-    
   })
   .post((req, res, next) => {
     const err = new Error("POST method is not allowed.");
